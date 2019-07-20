@@ -20,9 +20,16 @@ android {
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
+        def baseUrl = '"https://raw.githubusercontent.com/"'
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            buildConfigField "String", "API_BASE_URL", baseUrl
+        }
+
+        debug {
+            minifyEnabled false
+            buildConfigField "String", "API_BASE_URL", baseUrl
         }
     }
     dataBinding.enabled = true
