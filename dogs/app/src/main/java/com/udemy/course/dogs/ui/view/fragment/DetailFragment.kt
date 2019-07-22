@@ -10,6 +10,8 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.udemy.course.dogs.R
 import com.udemy.course.dogs.ui.viewmodel.DetailViewModel
+import com.udemy.course.dogs.util.getProgressDrawable
+import com.udemy.course.dogs.util.loadImage
 import kotlinx.android.synthetic.main.fragment_detail.*
 
 class DetailFragment : Fragment() {
@@ -29,12 +31,13 @@ class DetailFragment : Fragment() {
         }
 
         detailViewModel = ViewModelProviders.of(this).get(DetailViewModel::class.java)
-        detailViewModel.fetch()
+        detailViewModel.fetch(dogUuid)
 
         detailViewModel.dogs.observe(this, Observer { dog ->
             dog_name.text = dog.dogBreed
             dog_lifespan.text = dog.lifeSpan
             dog_temperament.text = dog.temperament
+            dog_image.loadImage(dog.imageUrl, getProgressDrawable(context = view.context))
         })
     }
 }
