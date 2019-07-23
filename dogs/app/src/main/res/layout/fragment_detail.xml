@@ -1,17 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android">
 
+    <data>
+
+        <variable
+            name="dog"
+            type="com.udemy.course.dogs.model.Dog" />
+
+    </data>
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
         <ImageView
+            android:layout_marginTop="@dimen/default_margin"
             android:id="@+id/dog_image"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
+            android:imageUrl="@{dog.imageUrl}"
             android:minHeight="200dp"
-            android:scaleType="fitCenter"/>
+            android:scaleType="fitCenter" />
 
         <TextView
             android:id="@+id/dog_name"
@@ -23,7 +33,7 @@
             android:layout_marginStart="@dimen/default_margin"
             android:layout_marginTop="@dimen/default_margin"
             android:layout_marginEnd="@dimen/default_margin"
-            android:text="@string/dog_name" />
+            android:text="@{dog.dogBreed}" />
 
         <TextView
             android:id="@+id/dog_purpose"
@@ -33,7 +43,7 @@
             android:layout_below="@+id/dog_name"
             android:layout_centerHorizontal="true"
             android:layout_margin="@dimen/text_top_spacing"
-            android:text="@string/dog_purpose" />
+            android:text="@{dog.bredFor}" />
 
         <TextView
             android:id="@+id/dog_temperament"
@@ -43,7 +53,7 @@
             android:layout_below="@+id/dog_purpose"
             android:layout_centerHorizontal="true"
             android:layout_margin="@dimen/text_top_spacing"
-            android:text="@string/dog_temperament" />
+            android:text="@{dog.temperament}" />
 
         <TextView
             android:id="@+id/dog_lifespan"
@@ -53,6 +63,6 @@
             android:layout_below="@+id/dog_temperament"
             android:layout_centerHorizontal="true"
             android:layout_margin="@dimen/text_top_spacing"
-            android:text="@string/dog_lifespan" />
+            android:text="@{dog.lifeSpan}" />
     </RelativeLayout>
 </layout>
