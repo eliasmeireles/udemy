@@ -75,8 +75,8 @@ class DetailFragment : Fragment() {
                 override fun onResourceReady(resource: Bitmap, transition: Transition<in Bitmap>?) {
                     Palette.from(resource)
                         .generate{palette ->  
-                            val  vibranteColor = palette?.vibrantSwatch?.rgb ?: 0
-                            val dogPalette = DogPalette(vibranteColor)
+                            val  vibrantColor = palette?.vibrantSwatch?.rgb ?: 0
+                            val dogPalette = DogPalette(vibrantColor)
                             detailBinding.pallet = dogPalette
                         }
                 }

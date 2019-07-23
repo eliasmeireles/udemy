@@ -30,4 +30,8 @@ class SharedPrefencesHelper {
     }
 
     fun getUpdateTime() = prefs?.getLong(PREF_TIME, 0)
+
+    fun getCacheDuration(): String? {
+        return prefs?.getString("pref_cache_duration", "")
+    }
 }

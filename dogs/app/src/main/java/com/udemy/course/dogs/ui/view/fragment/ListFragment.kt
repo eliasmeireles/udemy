@@ -1,12 +1,11 @@
 package com.udemy.course.dogs.ui.view.fragment
 
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.udemy.course.dogs.R
 import com.udemy.course.dogs.ui.adapter.DogAdapter
@@ -19,9 +18,10 @@ class ListFragment : Fragment() {
     private var dogAdapter: DogAdapter = DogAdapter(arrayListOf())
 
     override fun onCreateView(
-            inflater: LayoutInflater, container: ViewGroup?,
-            savedInstanceState: Bundle?
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
     ): View? {
+        setHasOptionsMenu(true)
         return inflater.inflate(R.layout.fragment_list, container, false)
     }
 
@@ -46,6 +46,21 @@ class ListFragment : Fragment() {
         }
     }
 
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        inflater.inflate(R.menu.menu, menu)
+        super.onCreateOptionsMenu(menu, inflater)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+             R.id.prefSetting -> {
+                 val settingFragment = ListFragmentDirections.actionSettingFragment()
+                 view?.let { Navigation.findNavController(it).navigate(settingFragment) }
+             }
+        }
+        return super.onOptionsItemSelected(item)
+    }
+
     private fun observerViewModel() {
         viewModel.dogsLiveData.observe(this, Observer { dogs ->
             dogsList.visibility = View.VISIBLE
@@ -54,7 +69,7 @@ class ListFragment : Fragment() {
 
         viewModel.loadError.observe(this, Observer { isError ->
             isError?.let {
-                listError.visibility = if(isError) View.VISIBLE else View.GONE
+                listError.visibility = if (isError) View.VISIBLE else View.GONE
             }
         })
 

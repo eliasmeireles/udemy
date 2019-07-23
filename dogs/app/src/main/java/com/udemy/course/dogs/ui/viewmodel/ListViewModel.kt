@@ -1,10 +1,7 @@
 package com.udemy.course.dogs.ui.viewmodel
 
 import android.app.Application
-import android.util.Log
-import android.widget.Toast
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
 import com.udemy.course.dogs.dao.DogDatabase
 import com.udemy.course.dogs.model.Dog
 import com.udemy.course.dogs.service.DogsApiService
@@ -15,10 +12,11 @@ import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.observers.DisposableSingleObserver
 import io.reactivex.schedulers.Schedulers
 import kotlinx.coroutines.launch
+import java.lang.NumberFormatException
 
 class ListViewModel(application: Application) : BaseViewModel(application = application) {
 
-    private val refresTime = 5 * 60 * 1000 * 1000 * 1000L
+    private var refreshTime = 5 * 60 * 1000 * 1000 * 1000L
     private val prefHelper = SharedPrefencesHelper(getApplication())
     private val dogsService = DogsApiService()
     private val disposable = CompositeDisposable()
@@ -28,10 +26,21 @@ class ListViewModel(application: Application) : BaseViewModel(application = appl
     val loading = MutableLiveData<Boolean>()
 
     fun refresh() {
+        checkCacheDuration()
         val updateTime = prefHelper.getUpdateTime()
-        if (updateTime != null && updateTime != 0L && System.nanoTime() - updateTime < refresTime)
+        if (updateTime != null && updateTime != 0L && System.nanoTime() - updateTime < refreshTime)
             fetchFromDatabase()
         else requestDogList()
+    }
+
+    private fun checkCacheDuration() {
+        val cacheDuration = prefHelper.getCacheDuration()
+        try {
+            val cacheDurationInt = cacheDuration?.toInt() ?: 5 * 60
+            refreshTime = cacheDurationInt.times( 1000 * 1000 * 1000L)
+        } catch (e: NumberFormatException) {
+            e.printStackTrace()
+        }
     }
 
     fun refreshByPassCache() = requestDogList()
