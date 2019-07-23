@@ -8,6 +8,7 @@ import androidx.lifecycle.ViewModel
 import com.udemy.course.dogs.dao.DogDatabase
 import com.udemy.course.dogs.model.Dog
 import com.udemy.course.dogs.service.DogsApiService
+import com.udemy.course.dogs.util.NotificationsHelper
 import com.udemy.course.dogs.util.SharedPrefencesHelper
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
@@ -52,6 +53,7 @@ class ListViewModel(application: Application) : BaseViewModel(application = appl
                 .subscribeWith(object : DisposableSingleObserver<List<Dog>>() {
                     override fun onSuccess(dogs: List<Dog>) {
                         storeDogsLocally(dogs)
+                        NotificationsHelper(getApplication()).createNotification()
                     }
 
                     override fun onError(e: Throwable) {
