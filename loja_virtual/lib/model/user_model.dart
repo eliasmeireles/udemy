@@ -10,6 +10,9 @@ class UserModel extends Model {
 
   bool isLoading = false;
 
+  static UserModel of(BuildContext context) =>
+      ScopedModel.of<UserModel>(context);
+
   @override
   void addListener(VoidCallback listener) {
     super.addListener(listener);
@@ -97,12 +100,13 @@ class UserModel extends Model {
     notifyListeners();
   }
 
-  void passwordRecover(String email, onSuccess, onFail) {
-
+  void passwordRecover(String email) {
+    _firebaseAuth.sendPasswordResetEmail(email: email);
   }
 }
 
 abstract class ModelResponse {
   void onSuccess({String title, String message});
+
   void onFail({String title, String message});
 }

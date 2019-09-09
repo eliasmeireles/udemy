@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:loja_virtual/delegate/product_size_select_delegate.dart';
 import 'package:loja_virtual/data/product.dart';
+import 'package:loja_virtual/model/user_model.dart';
+import 'package:loja_virtual/screens/login_screen.dart';
 import 'package:loja_virtual/util/product_util.dart';
 import 'package:loja_virtual/util/util.dart';
 import 'package:loja_virtual/widgets/images_carousel.dart';
@@ -50,7 +52,7 @@ class _ProductScreenState extends State<ProductScreen>
                 ),
                 productSizeOptions(context, product, this),
                 buildSizedBoxDivider(),
-                _buttonAddProductToCart(primaryColor),
+                _buttonAddProductToCart(context, primaryColor),
                 productDescription(product),
               ],
             ),
@@ -60,17 +62,22 @@ class _ProductScreenState extends State<ProductScreen>
     );
   }
 
-  SizedBox _buttonAddProductToCart(Color primaryColor) => SizedBox(
+  SizedBox _buttonAddProductToCart(BuildContext context, Color primaryColor) =>
+      SizedBox(
         height: 44.0,
         width: double.infinity,
         child: RaisedButton(
           onPressed: _selectedSize != null
               ? () {
-                  print("Teste");
+                  if (UserModel.of(context).isLoggedIn()) {
+                  } else {
+                    Navigator.of(context).push(
+                        MaterialPageRoute(builder: (context) => LoginScreen()));
+                  }
                 }
               : null,
           child: Text(
-            "Adicionar ao Carrinho",
+            UserModel.of(context).isLoggedIn() ? "Adicionar ao Carrinho": "Efetuar login",
             style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.bold),
           ),
           textColor: Colors.white,

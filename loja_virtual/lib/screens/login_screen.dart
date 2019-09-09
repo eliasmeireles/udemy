@@ -87,11 +87,17 @@ class _LoginScreenState extends State<LoginScreen> {
                   var email = _emailController.text;
                   if (email.isEmpty ||
                       email.length < 6 && !email.contains("@")) {
-                    _onFail(message:
+                    _onFail(
+                        message:
                             "Email informado não é valido, para recupera sua senha, porfavor informe o seu email",
                         title: "Recuperação de senha");
                   } else {
-                    model.passwordRecover(email, _onSuccess, _onFail);
+                    model.passwordRecover(email);
+                    _onSuccess(
+                        message:
+                            "Um email para recuperar sua senha foi enviada ao email informado, "
+                            "verifique sua caixa de emails e siga os passos informados para recuperar sua senha.",
+                        leaveScreen: false);
                   }
                 },
                 child: Text("Esqueci minha senha"),
